@@ -13,7 +13,7 @@ Util.getNav = async function (req, res, next) {
        list +=
        '<a href="/inv/type/'+
        row.classification_id +
-       ' "title="See our inventory of ' +
+       ' " title="See our inventory of ' +
        row.classification_name +
        ' vehicles">' +
        row.classification_name +
@@ -34,12 +34,12 @@ Util.buildClassificationGrid = async function(data){
      data.forEach(vehicle => {
         grid += '<li>'
         grid += '<a href="../../inv/detail/' + vehicle.inv_id
-        + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model
-        + 'details"><img src="' + vehicle.inv_thumbnail
+        + ' " title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model
+        + ' details"><img src="' + vehicle.inv_thumbnail
         +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model
-        +' on CSE Motors" /></a>'
+        +' on CSE Motors" ></a>'
         grid += '<div class="namePrice">'
-        grid += '<hr />'
+        grid += '<hr >'
         grid += '<h2>'
         grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View '
         + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'
@@ -56,5 +56,40 @@ Util.buildClassificationGrid = async function(data){
     }
     return grid
 }
+
+/* **************************************
+* Build the details view HTML
+* ************************************ */
+Util.buildInventoryDetailView = async function(data) {
+  let detailView
+    if(data.length > 0){
+     data.forEach(vehicle => {
+      detailView = '<div id="container-detail">'
+      detailView += '<div id="detail-content1">'
+      detailView += '<img src="' + vehicle.inv_image
+      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model
+      +' on CSE Motors" >'
+      detailView += '</div>'
+      detailView += '<div id="detail-content2">'
+      detailView += '<h2>' + vehicle.inv_make + " " + vehicle.inv_model + " " + 'Details</h2>'
+      detailView += '<span id="price">Price: $'
+      + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
+      detailView += '<p><span>Description:</span> ' + vehicle.inv_description + '</p>'
+      detailView += '<p><span>Color:</span> ' + vehicle.inv_color + '</p>'
+      detailView += '<p><span>Miles:</span> '
+      + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</p>'
+      detailView += '</div>'
+      detailView += '</div>' 
+     })
+} 
+return detailView
+}
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 module.exports = Util
