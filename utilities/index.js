@@ -60,7 +60,8 @@ Util.buildClassificationGrid = async function(data){
 /* **************************************
 * Build the details view HTML
 * ************************************ */
-Util.buildInventoryDetailView = async function(data) {
+Util.buildInventoryDetailView = async function(data){
+  
   let detailView
     if(data.length > 0){
      data.forEach(vehicle => {
@@ -81,7 +82,9 @@ Util.buildInventoryDetailView = async function(data) {
       detailView += '</div>'
       detailView += '</div>' 
      })
-} 
+} else {
+  detailView += '<p class="notice"> Sorry, no matching vehicles could be found.</p>'
+}
 return detailView
 }
 

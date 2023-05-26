@@ -330,6 +330,26 @@ margin-bottom: 10%;
   width: 80%;
 }
 
+#error-message{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  text-align: center;
+  margin: 0 auto;
+  margin: 10px;
+  color: rgb(162, 7, 7);
+}
+#crash{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#crash img{
+  width: 70%;
+
+}
+
 
 
 
@@ -450,13 +470,10 @@ margin-left: 1%;
 
   }
 
- 
+  #error-message{
 
-
-
-
-
- 
+    font-size: 1.4rem;
+  }
 
 }
 
@@ -554,5 +571,11 @@ margin-left: 1%;
     margin-top: 5%;
     width: 90%;
 
+  }
+
+  #error-message{
+
+    font-size: 1.5rem;
+    color: rgb(162, 7, 7);
   }
 }
