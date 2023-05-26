@@ -350,6 +350,14 @@ margin-bottom: 10%;
 
 }
 
+footer #errorTest{
+  color: white;
+}
+
+footer #errorTest:hover{
+  color: yellow;
+}
+
 
 
 
@@ -471,9 +479,10 @@ margin-left: 1%;
   }
 
   #error-message{
-
     font-size: 1.4rem;
   }
+
+
 
 }
 
