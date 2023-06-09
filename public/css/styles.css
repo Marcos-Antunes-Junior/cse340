@@ -44,8 +44,8 @@ h1{
 
 
 nav ul{
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; 
   list-style-type: none;
   padding-left: 10px;
   padding-right: 10px;
@@ -55,7 +55,10 @@ nav ul{
   margin-top: 10%;
   justify-content: space-between;
   background-color: #000000ae;  
+  text-align: center;
 }
+
+
 
 
 
@@ -358,6 +361,337 @@ footer #errorTest:hover{
   color: yellow;
 }
 
+#login-form{
+  margin: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#login-form fieldset{
+  margin: 2rem 0;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0.5rem 2%;
+  background-color: #1a202b;
+}
+
+#login-form label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#login-form input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#login-form .login-btn{
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+#login-form .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+#login-form h2{
+text-align: center;
+color: #fff;
+font-size: 1.2rem;
+}
+
+#login-form a{
+  color: #fff;
+}
+
+#login-form #check{
+  display: flex;
+  font-size: 1rem;
+  margin: 15px;
+  color: #fff;
+  font-weight: bold;
+}
+
+#check input{
+  width: 7%;
+  margin-left: 8px;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+#login-form input:required {
+  border-left: red solid 6px;
+}
+
+#login-form input:required:valid {
+  border-left: green solid 6px;
+}
+
+
+/* REGISTRATION FORM */
+
+#registration-form{
+  margin: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#registration-form fieldset{
+  margin: 2rem 0;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0.5rem 2%;
+  background-color: #1a202b;
+}
+
+#registration-form label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#registration-form input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#registration-form .login-btn{
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+#registration-form .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+
+#registration-form #check2{
+  display: flex;
+  font-size: 1rem;
+  margin: 15px;
+  color: #fff;
+  font-weight: bold;
+}
+
+#check2 input{
+  width: 7%;
+  margin-left: 8px;
+  margin-top: 6px;
+  cursor: pointer;
+}
+
+#messages {
+  color:rgb(162, 7, 7);
+  font-family: 'Montserrat', sans-serif;
+  width: 90%;
+}
+
+#registration-form #instructions p{
+  color: yellow;
+  margin: 20px;
+}
+
+#registration-form input:required {
+  border-left: red solid 6px;
+}
+
+#registration-form input:required:valid {
+  border-left: green solid 6px;
+}
+
+#registration-form legend{
+ margin-top: 10%;
+}
+
+#registration-form #required-info{
+  color: white;
+  margin-left: 18px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.notice{
+  color: rgb(151, 0, 0);
+}
+
+
+#inventoryMenu a{
+  font-family: 'Montserrat', sans-serif;
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 11px;
+  margin-top: 10px;
+}
+
+#inventoryMenu {
+  padding-bottom: 30px;
+}
+
+/* --- ADD CLASSIFICATION FORM --- */
+
+#add-classification{
+  margin: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#add-classification fieldset{
+  margin: 2rem 0;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0.5rem 2%;
+  background-color: #1a202b;
+}
+
+#add-classification label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#add-classification input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#add-classification .login-btn{
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+#add-classification .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+#add-classification input:required {
+  border-left: red solid 6px;
+}
+
+#add-classification input:required:valid {
+  border-left: green solid 6px;
+}
+
+#add-classification #instructions p{
+  color: yellow;
+  margin: 20px;
+}
+
+#add-classification #required-info{
+  color: white;
+  margin-left: 18px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+
+
+/* --- ADD INVENTORY FORM --- */
+
+#add-inventory{
+  margin: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#add-inventory fieldset{
+  margin: 2rem 0;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0.5rem 2%;
+  background-color: #1a202b;
+}
+
+#add-inventory label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#add-inventory input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#add-inventory textarea{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  resize: none;
+}
+
+#add-inventory select{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#add-inventory .login-btn{
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+#add-inventory .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+#add-inventory input:required {
+  border-left: red solid 6px;
+}
+
+#add-inventory input:required:valid {
+  border-left: green solid 6px;
+}
+
+
+
+#add-inventory #required-info{
+  color: white;
+  margin-left: 18px;
+  font-style: italic;
+  font-weight: 700;
+}
+
 
 
 
@@ -392,9 +726,10 @@ footer #errorTest:hover{
 }
 
 nav ul{
-
-  justify-content: space-around;
-  
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  text-align: center;
+  line-height: 30px;
 }
 
 h1{
@@ -421,6 +756,8 @@ font-size: 2rem;
   padding: 10px 15px;
   
 }
+
+
 
 
 
@@ -481,6 +818,69 @@ margin-left: 1%;
   #error-message{
     font-size: 1.4rem;
   }
+
+  #login-form{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  #login-form input{
+    padding: 1rem;
+  }
+
+  #login-form #check{
+
+    font-size: 1.2rem;
+
+  }
+  
+  #check input{
+    width: 5%;
+  }
+
+  /* REGISTRATION FORM */
+
+  #registration-form{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  #registration-form input{
+    padding: 1rem;
+  }
+
+  #registration-form #check2{
+
+    font-size: 1.2rem;
+
+  }
+  
+  #check2 input{
+    width: 5%;
+  }
+
+  #add-classification{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  #add-classification input{
+    padding: 1rem;
+  }
+
+  #add-inventory{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  #add-inventory input{
+    padding: 1rem;
+  }
+
+  #add-inventory select{
+    width: 50%;
+  }
+
 
 
 
@@ -587,4 +987,55 @@ margin-left: 1%;
     font-size: 1.5rem;
     color: rgb(162, 7, 7);
   }
+
+  #login-form .login-btn{
+    font-size: 1.1rem;
+  }
+
+  #login-form #check{
+
+    font-size: 1rem;
+
+  }
+  
+  #check input{
+    width: 4%;
+  }
+
+   /* REGISTRATION FORM */
+  
+
+
+   #registration-form .login-btn{
+    font-size: 1.1rem;
+  }
+
+  #registration-form #check2{
+
+    font-size: 1rem;
+
+  }
+  
+  #check2 input{
+    width: 4%;
+  }
+
+  #add-classification .login-btn{
+    font-size: 1.1rem;
+  }
+
+  #add-inventory .login-btn{
+    font-size: 1.1rem;
+  }
+
+  #add-inventory select{
+    width: 50%;
+  }
+  
+  nav ul{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    text-align: center;
+  }
+
 }

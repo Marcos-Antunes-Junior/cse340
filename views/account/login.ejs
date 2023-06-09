@@ -1,0 +1,45 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% })  %>
+  </ul>
+  <% } %>
+
+  
+<form id="login-form" action="/account/login" method="post">
+<fieldset>
+<label>
+Email:
+<input type="email" name="account_email" required>
+</label>
+<label>
+Password:
+<input type="password" name="account_password" id="input-pass" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required>
+</label>
+<div id="check">
+<p>Show password:</p>
+<input id="checkbox" type="checkbox" onclick="myFunction()">
+</div>
+<input type="submit" value="LOGIN" class="login-btn">
+<h2>No account? <a href="/account/register">Sign-up</a></h2>
+</fieldset>
+</form>
+<script>
+    function myFunction() {
+  var x = document.getElementById("input-pass");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+    

@@ -88,6 +88,19 @@ Util.buildInventoryDetailView = async function(data){
 return detailView
 }
 
+/* **************************************
+* Build classification options field - add inventory form.
+* ************************************ */
+Util.buildOptions = async function (req, res, next) {
+  let data = await invModel.getClassifications()
+  let options
+    options = '<option value="" selected disabled hidden> Choose a classification </option>'
+    data.rows.forEach(row => {
+    options += '<option value="' + row.classification_id +'">'+ row.classification_name +'</option>'
+    })
+  return options
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
