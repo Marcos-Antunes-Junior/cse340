@@ -43,7 +43,7 @@ invCont.buildByInventoryId = async function (req, res, next) {
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
     let nav = await utilities.getNav()
-    res.render("./inventory/management", {
+    res.render("./inventory/", {
         title: "Inventory Management",
         nav,
         errors: null,
@@ -75,7 +75,7 @@ invCont.addClassification = async function (req, res){
             `The ${classification_name} classification was succesfully added.`
 
         )
-        res.status(201).render("inventory/management", {
+        res.status(201).render("inventory/", {
            title: "Inventory Management",
            nav,       
 
@@ -114,7 +114,7 @@ invCont.addInventory = async function (req, res) {
             `The ${inv_model} vehicle was succesfully added.`
 
         )
-        res.status(201).render("inventory/management", {
+        res.status(201).render("inventory/", {
            title: "Inventory Management",
            nav,       
 
