@@ -42,11 +42,15 @@ invCont.buildByInventoryId = async function (req, res, next) {
  *  Build management view
  * ************************** */
 invCont.buildManagementView = async function (req, res, next) {
+    let options = await utilities.buildOptions()
     let nav = await utilities.getNav()
     res.render("./inventory/", {
         title: "Inventory Management",
         nav,
+        options,
         errors: null,
+        
+       
     })
 }
 
@@ -67,6 +71,7 @@ invCont.buildAddClassification = async function (req, res, next) {
 invCont.addClassification = async function (req, res){
     const { classification_name } = req.body
     const addResult = await invModel.registerAddClassification(classification_name)
+    let options = await utilities.buildOptions()
     let nav = await utilities.getNav()
 
     if (addResult) {
@@ -75,14 +80,16 @@ invCont.addClassification = async function (req, res){
             `The ${classification_name} classification was succesfully added.`
 
         )
-        res.status(201).render("inventory/", {
+        res.status(201).render("./inventory/", {
            title: "Inventory Management",
-           nav,       
+           nav,
+           options, 
+                 
 
         })
     } else {
         req.flash("notice", "Sorry, the operation failed.")
-        res.status(501).render("inventory/addClassification", {
+        res.status(501).render("./inventory/addClassification", {
             title: "Add Classification",
             nav,  
         })
@@ -107,6 +114,7 @@ invCont.buildAddInventory = async function (req, res, next) {
 invCont.addInventory = async function (req, res) {
     const { classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
     const addResult = await invModel.registerAddinventory(classification_id, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color)
+    let options = await utilities.buildOptions()
     let nav = await utilities.getNav()
     if (addResult) {
         req.flash(
@@ -114,18 +122,62 @@ invCont.addInventory = async function (req, res) {
             `The ${inv_model} vehicle was succesfully added.`
 
         )
-        res.status(201).render("inventory/", {
+        res.status(201).render("./inventory/", {
            title: "Inventory Management",
-           nav,       
+           nav,
+           options,
+                
 
         })
     } else {
         req.flash("notice", "Sorry, the operation failed.")
-        res.status(501).render("inventory/addInventory", {
+        res.status(501).render("./inventory/addInventory", {
             title: "Add Inventory",
             nav,  
         })
     }
 }
+
+/* ***************************
+ *  Return Inventory by Classification As JSON
+ * ************************** */
+invCont.getInventoryJSON = async (req, res, next) => {
+    const classification_id = parseInt(req.params.classification_id)
+    const invData = await invModel.getInventoryByClassificationId(classification_id)
+    if (invData[0].inv_id) {
+      return res.json(invData)
+    } else {
+      next(new Error("No data returned"))
+    }
+  }
+  
+
+/* ***************************
+ *  Build edit inventory view
+ * ************************** */
+invCont.editInventoryView = async function (req, res, next) {
+    const inv_id = parseInt(req.params.invId)
+    let nav = await utilities.getNav()
+    const itemData = await invModel.getInventoryByInvId(inv_id)
+    const options = await utilities.buildOptions(itemData[0].classification_id)
+    const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
+    res.render("./inventory/editInventory", {
+      title: "Edit " + itemName,
+      nav,
+      options: options,
+      errors: null,
+      inv_id: itemData[0].inv_id,
+      inv_make: itemData[0].inv_make,
+      inv_model: itemData[0].inv_model,
+      inv_year: itemData[0].inv_year,
+      inv_description: itemData[0].inv_description,
+      inv_image: itemData[0].inv_image,
+      inv_thumbnail: itemData[0].inv_thumbnail,
+      inv_price: itemData[0].inv_price,
+      inv_miles: itemData[0].inv_miles,
+      inv_color: itemData[0].inv_color,
+      classification_id: itemData[0].classification_id,
+    })
+  }
 
 module.exports = invCont

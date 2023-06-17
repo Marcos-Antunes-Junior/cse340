@@ -20,6 +20,12 @@ router.get("/addClassification", utilities.handleErrors(invController.buildAddCl
 // Route to Add Inventory View
 router.get("/addInventory", utilities.handleErrors(invController.buildAddInventory));
 
+// Route to get Inventory
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+// Route to get Edit
+router.get("/edit/:invId", utilities.handleErrors(invController.editInventoryView))
+
 // Process the add Classification data
 router.post('/addClassification', classValidate.classificationRules(),
 classValidate.checkClassData,

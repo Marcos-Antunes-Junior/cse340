@@ -11,19 +11,23 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 //Route for register
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+//Route for management account
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
+
 // Process the registration data
-router.post('/register', regValidate.registrationRules(),
-regValidate.checkRegData,
-utilities.handleErrors(accountController.registerAccount))
+router.post(
+    "/register",
+    regValidate.registrationRules(),
+    regValidate.checkRegData,
+    utilities.handleErrors(accountController.registerAccount)
+  )
 
 // Process the login attempt
 router.post(
-    '/login',
+    "/login",
     regValidate.loginRules(),
     regValidate.checkLoginData,
-    (req, res) => {
-        res.status(200).send('login process ')
-    }
+    utilities.handleErrors(accountController.accountLogin)
 )
 
 
