@@ -14,7 +14,7 @@
     </ul>
     <% } %>
 
-    <form id="add-inventory" action="inv/update" method="post">
+    <form id="updateForm" action="/inv/update" method="post">
         <fieldset>
             <p id="required-info">Field is required.</p>
             <label>
@@ -57,9 +57,11 @@
             Color
             <input type="text" name="inv_color" value="<%= locals.inv_color %>" id="invColor" pattern="[a-zA-Z]+" required>
             </label>
-            <input type="submit" value="UPDATE" class="login-btn">
+            <input type="submit" value="UPDATE" class="login-btn" disabled>
             <input type="hidden" name="inv_id"
 <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
 <% } %>>
             </fieldset>
     </form>
+
+    <script src="../../js/invUpdate.js"></script>

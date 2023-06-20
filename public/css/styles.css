@@ -721,6 +721,86 @@ table a:hover{
 }
 
 
+/* --- UPDATE INVENTORY FORM --- */
+
+#updateForm{
+  margin: 20px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#updateForm fieldset{
+  margin: 2rem 0;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 0.5rem 2%;
+  background-color: #1a202b;
+}
+
+#updateForm label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#updateForm input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#updateForm textarea{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  resize: none;
+}
+
+#updateForm select{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+}
+
+#updateForm .login-btn{
+  width: 30%;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+#updateForm .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+#updateForm input:required {
+  border-left: red solid 6px;
+}
+
+#updateForm input:required:valid {
+  border-left: green solid 6px;
+}
+
+
+
+#updateForm #required-info{
+  color: white;
+  margin-left: 18px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+
 
 
 
@@ -912,6 +992,23 @@ margin-left: 1%;
   }
 
 
+  /*** UPDATE FORM ***/
+
+
+  #updateForm{
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  #updateForm input{
+    padding: 1rem;
+  }
+
+  #updateForm select{
+    width: 50%;
+  }
+
+
 
 
 }
@@ -1068,4 +1165,12 @@ margin-left: 1%;
     text-align: center;
   }
 
+
+  #updateForm .login-btn{
+    font-size: 1.1rem;
+  }
+
+  #updateForm select{
+    width: 50%;
+  }
 }
