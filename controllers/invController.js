@@ -1,5 +1,7 @@
 const invModel = require("../models/inventoryModel")
 const utilities = require("../utilities/")
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 
 
 const invCont = {}
@@ -52,7 +54,8 @@ invCont.buildManagementView = async function (req, res, next) {
         
        
     })
-}
+    }
+
 
 /* ***************************
  *  Build Add Classification view
@@ -240,5 +243,44 @@ invCont.updateInventory = async function (req, res, next) {
       })
     }
   }
+
+
+    /* ***************************
+ *  BUILD DELETE CONFIRMATION VIEW
+ * ************************** */
+invCont.deleteView = async function (req, res, next) {
+    const inv_id = parseInt(req.params.invId)
+    let nav = await utilities.getNav()
+    const itemData = await invModel.getInventoryByInvId(inv_id)
+    const itemName = `${itemData[0].inv_make} ${itemData[0].inv_model}`
+    res.render("./inventory/deleteInventory", {
+        title: "Delete " + itemName,
+        nav,
+        errors: null,
+        inv_id: itemData[0].inv_id,
+        inv_make: itemData[0].inv_make,
+        inv_model: itemData[0].inv_model,
+        inv_year: itemData[0].inv_year,
+        inv_price: itemData[0].inv_price,
+    })
+}
+
+   /* ***************************
+ *  DELETE INVENTORY ITEM
+ * ************************** */
+invCont.deleteItem = async function (req, res, next) {
+    let nav = await utilities.getNav()
+    const inv_id = parseInt(req.body.inv_id)
+    const deleteResult = await invModel.deleteInventoryItem(inv_id)
+    if(deleteResult) {
+        req.flash("notice", 'The deletion was successful. ')
+        res.redirect('/inv/')
+    }else{
+        req.flash("notice", 'Sorry, the delete failed.')
+        res.redirect("/inv/delete/invId")
+    }
+}
+
+
 
 module.exports = invCont

@@ -29,6 +29,9 @@ Password:
 <input id="checkbox" type="checkbox" onclick="myFunction()">
 </div>
 <input type="submit" value="LOGIN" class="login-btn">
+<input type="hidden" name="account_firstname"
+<% if(locals.account_firstname) { %> value="<%= locals.account_firstname %>"
+<% } %>>
 <h2>No account? <a href="/account/register">Sign-up</a></h2>
 </fieldset>
 </form>

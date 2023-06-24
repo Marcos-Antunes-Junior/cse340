@@ -14,6 +14,12 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 //Route for management account
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
+//Route for logou process
+router.get("/logout", utilities.handleErrors(accountController.logoutProcess))
+
+// Route to Update Account view
+router.get("/update/:accountId", utilities.handleErrors(accountController.updateAccountView))
+
 // Process the registration data
 router.post(
     "/register",
@@ -30,6 +36,19 @@ router.post(
     utilities.handleErrors(accountController.accountLogin)
 )
 
+// Process the update
+router.post(
+"/",
+regValidate.updateRules(),
+regValidate.checkUpdateData,
+utilities.handleErrors(accountController.updateAccount)
+)
 
+router.post(
+  "/update/updatePassword",
+  regValidate.upPassRules(),
+  regValidate.checkPassData,
+  utilities.handleErrors(accountController.processUpPassword)
+)
 
 module.exports = router;
