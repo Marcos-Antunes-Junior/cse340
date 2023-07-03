@@ -1,4 +1,5 @@
 const invModel = require("../models/inventoryModel")
+const accountModel = require("../models/accountModel")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -107,6 +108,124 @@ Util.buildOptions = async function (optionSelected=null) {
   return options
 }
 
+/* **************************************
+* Build Inbox messages table
+* ************************************ */
+Util.buildInboxTable = async function (data) {
+ 
+  let table
+  if(data.length > 0){
+  table = '<table>'
+  table += '<tr>'
+  table += '<th> Received </th>'
+  table += '<th> Subject </th>'
+  table += '<th> From </th>'
+  table += '<th> Read </th>'
+  table += '</tr>'
+  data.forEach(row => {
+  if(row.message_archived === false){
+  table += '<tr>'
+  const time = row.message_created
+  table += `<td> ${time.toLocaleString('en-US', { timeZone: 'UTC'})} </td>`
+  table += `<td> ${row.message_subject} </td>`
+  table += `<td> ${row.account_firstname} ${row.account_lastname}</td>`
+  table += `<td> ${row.message_read} </td>`
+  table += '</tr>'
+  }
+  })
+  table += '</table>'
+
+}else {
+ table = '<h3>You do not have messages </h3>'
+}
+return table
+}
+
+/* **************************************
+* Build Unread Messages number
+* ************************************ */
+Util.buildUnreadMessages = async function (data) {
+  let number
+  let count = 0
+     data.forEach(row =>{
+    if(row.message_read === false){
+    count++
+    number = `<li> You have ${count} unread messages. </li>`
+    }   
+     })
+
+     return number;
+}
+
+/* **************************************
+* Build Unread Messages number
+* ************************************ */
+Util.buildArchivedMessagesNumber = async function (data) {
+let archived 
+let count = 0
+data.forEach( row => {
+if(row.message_archived === true) {
+count++
+archived = `<li><a href="/account/archived/${row.message_to}">View ${count} Archived Message</a></li>`
+} else if(row.message_archived === false) {
+archived = `You do not have archived message`
+}
+})
+return archived;
+}
+
+/* **************************************
+* Build Archived messages table
+* ************************************ */
+Util.buildArchivedTable = async function (data) {
+ 
+  let table
+  if(data.length > 0){
+  table = '<table>'
+  table += '<tr>'
+  table += '<th> Received </th>'
+  table += '<th> Subject </th>'
+  table += '<th> From </th>'
+  table += '<th> Read </th>'
+  table += '</tr>'
+  data.forEach(row => {
+  if(row.message_archived === true){
+  table += '<tr>'
+  const time = row.message_created
+  table += `<td> ${time.toLocaleString('en-US', { timeZone: 'UTC'})} </td>`
+  table += `<td> ${row.message_subject} </td>`
+  table += `<td> ${row.account_firstname} ${row.account_lastname}</td>`
+  table += `<td> ${row.message_read} </td>`
+  table += '</tr>'
+  }
+  })
+  table += '</table>'
+
+}else {
+ table = '<h3>You do not have messages </h3>'
+}
+return table
+}
+
+/* **************************************
+* Build account name options
+* ************************************ */
+Util.buildAccountOptions = async function (id) {
+  let data = await accountModel.getAllAccountData()
+  let options
+    options = '<select name="message_to" id="message_to" required>'
+    options += '<option value="" selected disabled hidden> Select a recipient </option>'
+    data.rows.forEach(row => {
+    if(id != row.account_id){
+      options += `<option value="${row.account_id}"> ${row.account_firstname} ${row.account_lastname} </option>`
+    }
+    })
+    options += '</select>'
+  return options
+}
+
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
@@ -149,6 +268,16 @@ Util.checkLogin = (req, res, next) => {
     return res.redirect("/account/login")
   }
 }
+
+Util.checkPermission = (req, res, next) => {
+  const type = res.locals.accountData.account_type
+  if(type == "Client") {
+    return res.redirect("/account/")
+  } else {
+    next()
+  }
+}
+
 
 
 

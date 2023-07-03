@@ -242,3 +242,19 @@ UPDATE public.inventory
 SET inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'), 
 inv_thumbnail = REPLACE (inv_thumbnail, '/images/', '/images/vehicles/');
 
+
+-- Create message table 
+CREATE SEQUENCE message_seq;
+
+CREATE TABLE IF NOT EXISTS public.message(
+message_id integer NOT NULL DEFAULT nextval('message_seq'),
+message_subject character varying NOT NULL,
+message_body text NOT NULL,
+message_created timestamp with time zone NOT NULL DEFAULT now(),
+message_to integer NOT NULL,
+message_from integer NOT NULL,
+message_read boolean NOT NULL DEFAULT FALSE,
+message_archived boolean NOT NULL DEFAULT FALSE,
+CONSTRAINT message_pkey PRIMARY KEY (message_id)
+);
+

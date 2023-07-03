@@ -2,6 +2,7 @@ const utilities = require("../utilities/")
 const accountModel = require("../models/accountModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const invCont = require("./invController")
 require("dotenv").config()
 
 /* ****************************************
@@ -110,14 +111,176 @@ async function accountLogin(req, res) {
 * *************************************** */
 async function buildManagement(req, res, next) {
     let nav = await utilities.getNav()
+    let account_id = res.locals.accountData.account_id
+    let data = await accountModel.getMessage(account_id)
+    let number = await utilities.buildUnreadMessages(data)
     res.render("account/", {
       title: "Account Management",
       nav,
+      number,
       errors: null,
     })
 }
-  
-  
 
+ /* ****************************************
+ *  Logout
+ * ************************************ */
+ async function logoutProcess(req, res, next) {
+  res.clearCookie("jwt");
+  return res.redirect("/");
+}
 
-module.exports = {buildLogin, buildRegister, registerAccount, accountLogin, buildManagement}
+/* ****************************************
+ *  Deliver Update view
+ * ************************************ */
+  async function updateAccountView(req, res, next) {
+  const account_id = parseInt(req.params.accountId)
+  let nav = await utilities.getNav()
+  const itemData = await accountModel.getAccountById(account_id)
+  res.render("account/update",{
+  title: "Edit Account",
+  nav,
+  errors: null,
+  account_firstname: itemData.account_firstname,
+  account_lastname: itemData.account_lastname,
+  account_email: itemData.account_email,
+  account_id: itemData.account_id,
+  })
+  }
+
+  /* ****************************************
+*  Process Update Account
+* *************************************** */
+async function updateAccount(req, res) {
+let nav = await utilities.getNav()
+const { account_firstname, account_lastname, account_email, account_id } = req.body
+const upAccount = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id)
+const accountData = await accountModel.getAccountById(account_id)
+if (upAccount) {
+  req.flash(
+    "notice",
+    `Congratulations, your information has been updated.`
+  )
+delete accountData.account_password
+res.clearCookie("jwt");
+const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+return res.redirect("/account/")
+} else {
+  req.flash("notice", "Sorry, the update failed.")
+  res.status(501).render("account/", {
+    title: "Account Management",
+    nav,
+    errors: null,
+  })
+}
+}
+
+  /* ****************************************
+*  Process Update Password
+* *************************************** */
+async function processUpPassword(req, res, next) {
+  
+  const { account_id, account_password } = req.body
+
+    // Hash the password before storing
+    let hashedPassword
+    try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = await bcrypt.hashSync(account_password, 10)
+    } catch (error) {
+    req.flash("notice", 'Sorry, there was an error processing the update.')
+     res.status(500).redirect("/account")
+    }
+
+    const upPassword = await accountModel.updatePassword(hashedPassword, account_id)
+
+  if (upPassword) {
+    req.flash(
+      "notice",
+      `Congratulations, your password was updated.`
+    )
+    res.status(201).redirect("/account")
+    
+  } else {
+
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).redirect("/account/update/"+account_id)
+  
+  }
+
+}
+
+/* ****************************************
+*  Account Inbox View
+* *************************************** */
+async function inboxView(req, res, next) {
+  const account_id = parseInt(req.params.accountId)
+  let nav = await utilities.getNav()
+  const itemData = await accountModel.getAccountById(account_id)
+  const accountName = `${itemData.account_firstname} ${itemData.account_lastname}`
+  let data = await accountModel.getMessage(account_id)
+  const table = await utilities.buildInboxTable(data)
+  const archived = await utilities.buildArchivedMessagesNumber(data)
+  res.render("account/inbox", {
+    title: `${accountName} Inbox`,
+    nav,
+    table,
+    archived,
+    errors: null, 
+  })
+
+}
+
+/* ****************************************
+*  New Message View
+* *************************************** */
+async function newMessageView(req, res, next) {
+  const account_id = parseInt(req.params.accountId)
+  let nav = await utilities.getNav()
+  const itemData = await accountModel.getAccountById(account_id)
+  let options = await utilities.buildAccountOptions(account_id)
+  res.render("account/newMessage", {
+    title: "New Message",
+    nav,
+    options,
+    errors: null,
+  })
+}
+
+/* ****************************************
+*  Archived Message View
+* *************************************** */
+async function archivedMessageView(req, res, next) {
+  const account_id = parseInt(req.params.accountId)
+  let nav = await utilities.getNav()
+  const itemData = await accountModel.getAccountById(account_id)
+  const accountName = `${itemData.account_firstname} ${itemData.account_lastname}`
+  let data = await accountModel.getMessage(account_id)
+  let table = await utilities.buildArchivedTable(data)
+  res.render("account/archived", {
+  title: `${accountName} Archives`,
+  nav,
+  table,
+  errors: null,
+  }) 
+}
+
+/* ****************************************
+*  Process add new message
+* *************************************** */
+async function addMessage(req, res) {
+const {message_to, message_subject, message_body, account_id} = req.body
+const addResult = await accountModel.addNewMessage(message_to, message_subject, message_body, account_id) 
+if(addResult){
+req.flash("notice", `Message sent successfully`) 
+res.status(201).redirect("/account/inbox/"+account_id) 
+} else {
+req.flash("notice", `Failed to send the message`)
+res.status(501).redirect("account/newMessage/"+account_id)
+}
+}
+
+  
+module.exports = {buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, logoutProcess, updateAccountView, updateAccount, 
+processUpPassword, inboxView, newMessageView, archivedMessageView, addMessage}

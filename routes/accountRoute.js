@@ -14,6 +14,21 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 //Route for management account
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
+//Route for logou process
+router.get("/logout", utilities.checkLogin, utilities.handleErrors(accountController.logoutProcess))
+
+// Route to Update Account view
+router.get("/update/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.updateAccountView))
+
+// Route to Inbox view
+router.get("/inbox/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.inboxView))
+
+// Route to New Message view
+router.get("/newMessage/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.newMessageView))
+
+// Route to Archived Message view
+router.get("/archived/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.archivedMessageView))
+
 // Process the registration data
 router.post(
     "/register",
@@ -30,6 +45,27 @@ router.post(
     utilities.handleErrors(accountController.accountLogin)
 )
 
+// Process the update
+router.post(
+"/",
+regValidate.updateRules(),
+regValidate.checkUpdateData,
+utilities.handleErrors(accountController.updateAccount)
+)
 
+router.post(
+  "/update/updatePassword",
+  regValidate.upPassRules(),
+  regValidate.checkPassData,
+  utilities.handleErrors(accountController.processUpPassword)
+)
+
+// Process add new message
+router.post(
+"/inbox/",
+regValidate.newMessageRules(),
+regValidate.checkNewMessage,
+utilities.handleErrors(accountController.addMessage)
+)
 
 module.exports = router;
