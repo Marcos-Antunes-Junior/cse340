@@ -3,6 +3,7 @@ const accountModel = require("../models/accountModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const invCont = require("./invController")
+const invCont = require("./invController")
 require("dotenv").config()
 
 /* ****************************************
@@ -82,7 +83,7 @@ async function registerAccount(req, res) {
  * ************************************ */
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
-  const { account_email, account_password } = req.body
+  const { account_email, account_password} = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
    req.flash("notice", "Please check your credentials and try again.")
@@ -121,6 +122,65 @@ async function buildManagement(req, res, next) {
       errors: null,
     })
 }
+
+ /* ****************************************
+ *  Logout
+ * ************************************ */
+ async function logoutProcess(req, res, next) {
+  res.clearCookie("jwt");
+  return res.redirect("/");
+}
+
+/* ****************************************
+ *  Deliver Update view
+ * ************************************ */
+  async function updateAccountView(req, res, next) {
+  const account_id = parseInt(req.params.accountId)
+  let nav = await utilities.getNav()
+  const itemData = await accountModel.getAccountById(account_id)
+  res.render("account/update",{
+  title: "Edit Account",
+  nav,
+  errors: null,
+  account_firstname: itemData.account_firstname,
+  account_lastname: itemData.account_lastname,
+  account_email: itemData.account_email,
+  account_id: itemData.account_id,
+  })
+  }
+
+  /* ****************************************
+*  Process Update Account
+* *************************************** */
+async function updateAccount(req, res) {
+let nav = await utilities.getNav()
+const { account_firstname, account_lastname, account_email, account_id } = req.body
+const upAccount = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id)
+const accountData = await accountModel.getAccountById(account_id)
+if (upAccount) {
+  req.flash(
+    "notice",
+    `Congratulations, your information has been updated.`
+  )
+delete accountData.account_password
+res.clearCookie("jwt");
+const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+return res.redirect("/account/")
+} else {
+  req.flash("notice", "Sorry, the update failed.")
+  res.status(501).render("account/", {
+    title: "Account Management",
+    nav,
+    errors: null,
+  })
+}
+}
+
+  /* ****************************************
+*  Process Update Password
+* *************************************** */
+async function processUpPassword(req, res, next) {
 
  /* ****************************************
  *  Logout
@@ -282,5 +342,4 @@ res.status(501).redirect("account/newMessage/"+account_id)
 }
 
   
-module.exports = {buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, logoutProcess, updateAccountView, updateAccount, 
-processUpPassword, inboxView, newMessageView, archivedMessageView, addMessage}
+module.exports = {buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, logoutProcess, updateAccountView, updateAccount, processUpPassword, inboxView, newMessageView, archivedMessageView, addMessage}
