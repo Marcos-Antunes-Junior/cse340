@@ -1,5 +1,6 @@
 const utilities = require("../utilities/")
 const accountModel = require("../models/accountModel")
+const messageModel = require("../models/messageModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const invCont = require("./invController")
@@ -112,7 +113,7 @@ async function accountLogin(req, res) {
 async function buildManagement(req, res, next) {
     let nav = await utilities.getNav()
     let account_id = res.locals.accountData.account_id
-    let data = await accountModel.getMessage(account_id)
+    let data = await messageModel.getMessage(account_id)
     let number = await utilities.buildUnreadMessages(data)
     res.render("account/", {
       title: "Account Management",
@@ -211,76 +212,8 @@ async function processUpPassword(req, res, next) {
 
 }
 
-/* ****************************************
-*  Account Inbox View
-* *************************************** */
-async function inboxView(req, res, next) {
-  const account_id = parseInt(req.params.accountId)
-  let nav = await utilities.getNav()
-  const itemData = await accountModel.getAccountById(account_id)
-  const accountName = `${itemData.account_firstname} ${itemData.account_lastname}`
-  let data = await accountModel.getMessage(account_id)
-  const table = await utilities.buildInboxTable(data)
-  const archived = await utilities.buildArchivedMessagesNumber(data)
-  res.render("account/inbox", {
-    title: `${accountName} Inbox`,
-    nav,
-    table,
-    archived,
-    errors: null, 
-  })
 
-}
-
-/* ****************************************
-*  New Message View
-* *************************************** */
-async function newMessageView(req, res, next) {
-  const account_id = parseInt(req.params.accountId)
-  let nav = await utilities.getNav()
-  const itemData = await accountModel.getAccountById(account_id)
-  let options = await utilities.buildAccountOptions(account_id)
-  res.render("account/newMessage", {
-    title: "New Message",
-    nav,
-    options,
-    errors: null,
-  })
-}
-
-/* ****************************************
-*  Archived Message View
-* *************************************** */
-async function archivedMessageView(req, res, next) {
-  const account_id = parseInt(req.params.accountId)
-  let nav = await utilities.getNav()
-  const itemData = await accountModel.getAccountById(account_id)
-  const accountName = `${itemData.account_firstname} ${itemData.account_lastname}`
-  let data = await accountModel.getMessage(account_id)
-  let table = await utilities.buildArchivedTable(data)
-  res.render("account/archived", {
-  title: `${accountName} Archives`,
-  nav,
-  table,
-  errors: null,
-  }) 
-}
-
-/* ****************************************
-*  Process add new message
-* *************************************** */
-async function addMessage(req, res) {
-const {message_to, message_subject, message_body, account_id} = req.body
-const addResult = await accountModel.addNewMessage(message_to, message_subject, message_body, account_id) 
-if(addResult){
-req.flash("notice", `Message sent successfully`) 
-res.status(201).redirect("/account/inbox/"+account_id) 
-} else {
-req.flash("notice", `Failed to send the message`)
-res.status(501).redirect("account/newMessage/"+account_id)
-}
-}
 
   
 module.exports = {buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, logoutProcess, updateAccountView, updateAccount, 
-processUpPassword, inboxView, newMessageView, archivedMessageView, addMessage}
+processUpPassword}

@@ -1,5 +1,6 @@
 const invModel = require("../models/inventoryModel")
 const accountModel = require("../models/accountModel")
+const accountMessage = require("../models/messageModel")
 const Util = {}
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -127,7 +128,7 @@ Util.buildInboxTable = async function (data) {
   table += '<tr>'
   const time = row.message_created
   table += `<td> ${time.toLocaleString('en-US', { timeZone: 'UTC'})} </td>`
-  table += `<td> ${row.message_subject} </td>`
+  table += `<td><a href="/message/messageView/${row.message_id}">${row.message_subject}</a></td>`
   table += `<td> ${row.account_firstname} ${row.account_lastname}</td>`
   table += `<td> ${row.message_read} </td>`
   table += '</tr>'
@@ -158,7 +159,7 @@ Util.buildUnreadMessages = async function (data) {
 }
 
 /* **************************************
-* Build Unread Messages number
+* Build Archived Messages number
 * ************************************ */
 Util.buildArchivedMessagesNumber = async function (data) {
 let archived 
@@ -166,10 +167,8 @@ let count = 0
 data.forEach( row => {
 if(row.message_archived === true) {
 count++
-archived = `<li><a href="/account/archived/${row.message_to}">View ${count} Archived Message</a></li>`
-} else if(row.message_archived === false) {
-archived = `You do not have archived message`
-}
+archived = `<li><a href="/message/archived/">View ${count} Archived Message(s)</a></li>`
+} 
 })
 return archived;
 }
@@ -193,7 +192,7 @@ Util.buildArchivedTable = async function (data) {
   table += '<tr>'
   const time = row.message_created
   table += `<td> ${time.toLocaleString('en-US', { timeZone: 'UTC'})} </td>`
-  table += `<td> ${row.message_subject} </td>`
+  table += `<td><a href="/message/messageView/${row.message_id}">${row.message_subject}</a></td>`
   table += `<td> ${row.account_firstname} ${row.account_lastname}</td>`
   table += `<td> ${row.message_read} </td>`
   table += '</tr>'
@@ -211,7 +210,7 @@ return table
 * Build account name options
 * ************************************ */
 Util.buildAccountOptions = async function (id) {
-  let data = await accountModel.getAllAccountData()
+  let data = await accountMessage.getAllAccountData()
   let options
     options = '<select name="message_to" id="message_to" required>'
     options += '<option value="" selected disabled hidden> Select a recipient </option>'
@@ -222,6 +221,50 @@ Util.buildAccountOptions = async function (id) {
     })
     options += '</select>'
   return options
+}
+
+/* **************************************
+* Build message view 
+* ************************************ */
+Util.buildMessageView = async function (data) {
+let messageView
+if(data.length > 0 ) {
+messageView = '<div id="messageview">'
+data.forEach(row => {
+messageView += `<p><strong>Subject:</strong>${row.message_subject}</p>`
+messageView += `<p><strong>From:</strong>${row.account_firstname} ${row.account_lastname}</p>`
+messageView += `<p><strong>Message:</strong>${row.message_body}</p>`
+})
+messageView += '</div>'  
+}
+return messageView
+}
+
+
+/* **************************************
+* Build reply input form
+* ************************************ */
+Util.replyForm = async function (data) {
+let reply
+if(data.length > 0) {
+data.forEach(row => {
+let substr = 'RE:'
+reply = '<label>'
+reply += 'To'
+reply += `<input type="hidden" name="message_to" id="message_to" readonly value="${row.message_from}" required>`
+reply += `<input type="text" name="to" readonly value="${row.account_firstname} ${row.account_lastname}" required>`
+reply += '</label>'
+reply += '<label>'
+reply += 'Subject'
+if(row.message_subject.indexOf(substr)  >= 0){
+reply += `<input type="text" name="message_subject" id="message_subject" readonly value="${row.message_subject}" required>`
+} else {
+reply += `<input type="text" name="message_subject" id="message_subject" readonly value="${substr} ${row.message_subject}" required>`  
+}
+reply += '</label>'
+})
+}
+return reply
 }
 
 

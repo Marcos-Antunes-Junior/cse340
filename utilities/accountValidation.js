@@ -218,54 +218,5 @@ validate.checkPassData = async (req, res, next) => {
     next()
 }
 
-/*  **********************************
- *  New Message Validation Rules
- * ********************************* */
-validate.newMessageRules = () => {
-    return [
-
-    body("message_to")
-    .isNumeric({min: 1})
-    .withMessage("Please, choose a recipient."),
-    
-    body("message_subject")
-    .isLength({min: 3})
-    .withMessage("Subject field does not meet requirements"),
-
-    body("message_body")
-    .isLength({min: 3})
-    .withMessage("Message field does not meet requirements"),
-
-    body("account_id")
-    .isNumeric({min: 1})
-    .withMessage("Account Id does not meet requirements")
-    ]
-}
-
-/*  **********************************
- *  Check data and return errors or continue to create New Message
- * ********************************* */
-validate.checkNewMessage = async (req, res, next) => {
-const { message_to, message_subject, message_body, account_id } = req.body
-let errors = []
-errors = validationResult(req)
-if(!errors.isEmpty()) {
-let nav = await utilities.getNav()
-let options = await utilities.buildAccountOptions(account_id)
-res.render("./account/newMessage", {
-errors,
-title: "New Message",
-nav,
-options, 
-message_to,
-message_subject,
-message_body,
-account_id,  
-})
-return
-}
-next()
-}
-
 
 module.exports = validate
