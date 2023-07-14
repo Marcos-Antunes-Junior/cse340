@@ -13,10 +13,12 @@
     </ul>
     <% } %>
 
+<div id="internal">
 <p>This is an internal system only. Recipients are limited to the three generic accounts.</p>
 <p>All inputs are required.</p>
+</div>
 
-<form action="/message/inbox" method="post">
+<form id="newMessage" action="/message/inbox" method="post">
 <label>
 To:
 <%- options %>

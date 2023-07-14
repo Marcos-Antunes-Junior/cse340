@@ -17,16 +17,16 @@
 
     <hr>
 
-    <p><a href="/message/inbox/">Return to Inbox</a></p>
+    <p id="return"><a href="/message/inbox/">Return to Inbox</a></p>
 
-    <button id="reply">Reply</button>
+    <button id="reply" class="buttons">Reply</button>
     <form id="reply-form" action="/message/messageView/reply" method="post">
     <%- reply %>
     <label>
     Message:
     <textarea name="message_body" id="message_body" rows="4" cols="50" maxlength="100" required></textarea>
     </label>
-    <input type="hidden" name="message_id" required value="<%= locals.message_id %>">
+    <input type="hidden" name="message_id" value="<%= locals.message_id %>">
     <input type="hidden" name="account_id"
     <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
     <% } %>>
@@ -38,23 +38,23 @@
     <input type="hidden" name="account_id"
 <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
 <% } %>>
-    <input type="submit" value="Mark as Read" class="login-btn">
+    <input type="submit" value="Mark as Read" class="buttons">
     </form>
 
     <form action="/message/messageView/archived" method="post">
-    <input type="hidden" name="message_id" required value="<%= locals.message_id %>">
+    <input type="hidden" name="message_id" value="<%= locals.message_id %>">
     <input type="hidden" name="account_id"
 <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
 <% } %>>
-    <input type="submit" value="Archive Message" class="login-btn">
+    <input type="submit" value="Archive Message" class="buttons">
     </form>
 
     <form action="/message/messageView/delete" method="post">
-    <input type="hidden" name="message_id" required value="<%= locals.message_id %>">
+    <input type="hidden" name="message_id" value="<%= locals.message_id %>">
     <input type="hidden" name="account_id"
 <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
 <% } %>>
-    <input type="submit" value="Delete Message" class="login-btn">
+    <input type="submit" value="Delete Message" class="buttons">
     </form>
 <script>
 document.getElementById('reply').onclick=function(){

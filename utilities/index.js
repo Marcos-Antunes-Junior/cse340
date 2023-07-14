@@ -116,7 +116,7 @@ Util.buildInboxTable = async function (data) {
  
   let table
   if(data.length > 0){
-  table = '<table>'
+  table = '<table id="inboxTable">'
   table += '<tr>'
   table += '<th> Received </th>'
   table += '<th> Subject </th>'
@@ -137,7 +137,7 @@ Util.buildInboxTable = async function (data) {
   table += '</table>'
 
 }else {
- table = '<h3>You do not have messages </h3>'
+ table = '<h3 id="noMessages">You do not have messages </h3>'
 }
 return table
 }
@@ -180,7 +180,7 @@ Util.buildArchivedTable = async function (data) {
  
   let table
   if(data.length > 0){
-  table = '<table>'
+  table = '<table id="inboxTable">'
   table += '<tr>'
   table += '<th> Received </th>'
   table += '<th> Subject </th>'
@@ -201,7 +201,7 @@ Util.buildArchivedTable = async function (data) {
   table += '</table>'
 
 }else {
- table = '<h3>You do not have messages </h3>'
+ table = '<h3 id="noMessages">You do not have messages </h3>'
 }
 return table
 }
@@ -231,9 +231,10 @@ let messageView
 if(data.length > 0 ) {
 messageView = '<div id="messageview">'
 data.forEach(row => {
-messageView += `<p><strong>Subject:</strong>${row.message_subject}</p>`
-messageView += `<p><strong>From:</strong>${row.account_firstname} ${row.account_lastname}</p>`
-messageView += `<p><strong>Message:</strong>${row.message_body}</p>`
+messageView += `<p><strong>Subject: </strong><span>${row.message_subject}</span></p>`
+messageView += `<p><strong>From: </strong><span>${row.account_firstname} ${row.account_lastname}</span></p>`
+messageView += `<p><strong>Message: </strong></p>`
+messageView += `<p id="messageB">${row.message_body}</p>`
 })
 messageView += '</div>'  
 }
@@ -251,15 +252,15 @@ data.forEach(row => {
 let substr = 'RE:'
 reply = '<label>'
 reply += 'To'
-reply += `<input type="hidden" name="message_to" id="message_to" readonly value="${row.message_from}" required>`
-reply += `<input type="text" name="to" readonly value="${row.account_firstname} ${row.account_lastname}" required>`
+reply += `<input type="hidden" name="message_to" id="message_to" value="${row.message_from}">`
+reply += `<input type="text" name="to" value="${row.account_firstname} ${row.account_lastname}" readonly>`
 reply += '</label>'
 reply += '<label>'
 reply += 'Subject'
 if(row.message_subject.indexOf(substr)  >= 0){
-reply += `<input type="text" name="message_subject" id="message_subject" readonly value="${row.message_subject}" required>`
+reply += `<input type="text" name="message_subject" id="message_subject" value="${row.message_subject}" readonly>`
 } else {
-reply += `<input type="text" name="message_subject" id="message_subject" readonly value="${substr} ${row.message_subject}" required>`  
+reply += `<input type="text" name="message_subject" id="message_subject" value="${substr} ${row.message_subject}" readonly>`  
 }
 reply += '</label>'
 })

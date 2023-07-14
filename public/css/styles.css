@@ -22,6 +22,11 @@ body{
   left: 10px;
 }
 
+#tools {
+display: flex;
+flex-direction: row-reverse;
+}
+
 #tools a{
   font-family: 'Montserrat', sans-serif;
   text-decoration: none;
@@ -909,6 +914,31 @@ color: #fff;
 
 
 
+#messageCenter{
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 12%;
+  line-height: 10px;
+  margin-bottom: 10%;
+}
+
+#messageCenter h3{
+  margin-left: 3%;
+  font-size: 1rem;
+}
+
+#messageCenter li{
+  margin-left: -2%;
+  font-size: .8rem;
+  line-height: 15px;
+}
+
+#messageCenter li a:hover{
+  color: red;
+}
+
+
+
+
 /* --- UPDATE ACCOUNT FORM --- */
 
 #updateAccount{
@@ -1088,6 +1118,217 @@ color: #fff;
 
 #reply-form{
 display: none;
+}
+
+#inboxTable{
+  font-family: 'Montserrat', sans-serif;
+  border-collapse: collapse;
+  font-size: .6rem;
+  margin: auto;
+  margin: 10px;
+  
+}
+
+#inboxTable td{
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#inboxTable th{
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#inboxTable tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+#inboxOptions{
+  font-family: 'Montserrat', sans-serif; 
+  margin-left: -3%;
+}
+
+#internal{
+  font-family: 'Montserrat', sans-serif; 
+  margin-left: 3%; 
+  font-size: .8rem;
+  color:#020408;
+  font-style: italic;
+  font-weight: bold;
+}
+
+#newMessage{
+  font-family: 'Montserrat', sans-serif; 
+  width: 70%;
+}
+
+#newMessage label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #000;
+  font-size: .9rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#newMessage input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
+#newMessage textarea{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #000;
+  resize: none;
+}
+
+#newMessage select{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
+#newMessage .login-btn{
+  width: 30%;
+  text-align: center;
+  margin-left: 6%;
+  cursor: pointer;
+}
+
+#newMessage .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+#newMessage input:required {
+  border-left: red solid 6px;
+}
+
+#newMessage input:required:valid {
+  border-left: green solid 6px;
+}
+
+#return{
+font-family: 'Montserrat', sans-serif;  
+margin-left: 3%;
+}
+
+
+
+#reply-form{
+  font-family: 'Montserrat', sans-serif; 
+  width: 70%;
+  margin-bottom: 5%;
+}
+
+#reply-form label{
+  display: block;
+  text-align: left;
+  padding-top: 1rem;
+  color: #000;
+  font-size: .9rem;
+  font-weight: bolder;
+  margin: 15px;
+}
+
+#reply-form input{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
+#reply-form textarea{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #000;
+  resize: none;
+}
+
+#reply-form select{
+  display: block;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #000;
+}
+
+#reply-form .login-btn{
+  width: 30%;
+  text-align: center;
+  margin-left: 6%;
+  cursor: pointer;
+}
+
+#reply-form .login-btn:hover{
+background-color: #0d6e92;
+color: #fff;
+}
+
+
+
+
+.buttons{
+  width: 30%;
+  text-align: center;
+  margin-left: 3%;
+  cursor: pointer; 
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.buttons:hover{
+  background-color: #0d6e92;
+  color: #fff;
+}
+
+hr{
+  width: 90%;
+  background-color: #000;
+  height: 3px;
+}
+
+#messageview{
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 12%;
+  line-height: 5px;
+  margin-bottom: 10px;
+
+}
+
+#messageview strong{
+  font-size: .8rem;
+  font-weight: bolder;
+}
+
+#messageview span{
+font-size: .7rem;
+font-weight: 200;
+}
+
+#messageB{
+  font-size: .8rem;
+}
+
+#noMessages {
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 3%;
+  color:rgb(151, 0, 0);
 }
 
 
@@ -1350,6 +1591,20 @@ margin-left: 1%;
   }
 
 
+  #messageCenter h3{
+    margin-left: 2%;
+    font-size: 1.4rem;
+  }
+  
+  #messageCenter li{
+    margin-left: -1%;
+    font-size: 1.1rem;
+    line-height: 20px;
+  }
+  
+
+
+
   /* --- UPDATE ACCOUNT FORM --- */
 
   #updateAccount{
@@ -1384,6 +1639,109 @@ margin-left: 1%;
 
   }
 
+  #inboxTable{
+    font-family: 'Montserrat', sans-serif;
+    border-collapse: collapse;
+    font-size: 1rem;
+    margin-left: 3%;
+    
+  }
+
+  #inboxOptions{
+    font-family: 'Montserrat', sans-serif; 
+    margin-left: 0;
+  }
+
+  #internal{
+    font-family: 'Montserrat', sans-serif; 
+    margin-left: 2%; 
+    font-size: 1rem;
+
+  }
+
+  #newMessage select{
+    font-size: 1rem;
+    width: 40%;
+
+  }
+
+  #newMessage label{
+
+
+    font-size: 1.1rem;
+  
+  }
+
+  #newMessage .login-btn{
+ 
+    margin-left: 3%;
+
+  }
+
+  #return{ 
+    margin-left: 2%;
+    }
+  
+    
+.buttons{
+  width: 20%;
+  text-align: center;
+  margin-left: 2%;
+  cursor: pointer; 
+  margin-top: 5px;
+  margin-bottom: 5px;
+  
+}
+
+.buttons:hover{
+  background-color: #0d6e92;
+  color: #fff;
+}
+
+
+#messageview{
+  font-family: 'Montserrat', sans-serif;
+  margin-left: 7%;
+  line-height: 5px;
+  margin-bottom: 20px;
+  margin-top: 30px;
+
+}
+
+#messageview strong{
+  font-size: 1rem;
+  font-weight: bolder;
+}
+
+#messageview span{
+font-size: .9rem;
+font-weight: 200;
+}
+
+#messageB{
+  font-size: .9rem;
+}
+
+
+
+#reply-form select{
+  font-size: 1rem;
+  width: 40%;
+
+}
+
+#reply-form label{
+
+
+  font-size: 1.1rem;
+
+}
+
+#reply-form .login-btn{
+
+  margin-left: 3%;
+
+}
 
 
 
